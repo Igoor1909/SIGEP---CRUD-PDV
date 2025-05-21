@@ -567,8 +567,11 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_txtQuantidadeProdutoActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        ExecutarFornecedor(txtIDFornecedor, lblNomeFornecedor, lblCnpjFornecedor, lblRuaFornecedor, lblComplementoFornecedor, lblNumeroFornecedor, lblCidadeFornecedor, lblEstadoFornecedor, lblBairroFornecedor);
-    }//GEN-LAST:event_btnBuscarActionPerformed
+        ExecutarFornecedor(
+                txtIDFornecedor, lblNomeFornecedor, lblCnpjFornecedor, lblRuaFornecedor,
+                lblComplementoFornecedor, lblNumeroFornecedor, lblCidadeFornecedor,
+                lblEstadoFornecedor, lblBairroFornecedor, new FornecedorDAO()
+        );    }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnBuscarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProdutoActionPerformed
         ExecutarProduto(txtIDProduto, txtNomeProduto, txtValorProduto, txtDescontoProduto, txtIDProduto, txtValorTotalProduto, txtQuantidadeProduto);
@@ -634,10 +637,9 @@ public class Compra extends javax.swing.JFrame {
     }
 
     public void ExecutarFornecedor(JTextField txtIdFornecedor, JLabel lblNomeFornecedor,
-            JLabel lblCnpjFornecedor, JLabel lblRuaFornecedor,
-            JLabel lblComplementoFornecedor, JLabel lblNumeroFornecedor,
-            JLabel lblCidadeFornecedor, JLabel lblEstadoFornecedor,
-            JLabel lblBairroFornecedor) {
+            JLabel lblCnpjFornecedor, JLabel lblRuaFornecedor, JLabel lblComplementoFornecedor,
+            JLabel lblNumeroFornecedor, JLabel lblCidadeFornecedor, JLabel lblEstadoFornecedor,
+            JLabel lblBairroFornecedor, FornecedorDAO fornecedorDAO) {
 
         String idText = txtIdFornecedor.getText();
 
@@ -654,7 +656,7 @@ public class Compra extends javax.swing.JFrame {
             return;
         }
 
-        FornecedorDados a = new FornecedorDAO().getFornecedorDados(id);
+        FornecedorDados a = fornecedorDAO.getFornecedorDados(id);
 
         if (a != null) {
             lblNomeFornecedor.setText(a.getNome_fornecedor());
@@ -667,14 +669,14 @@ public class Compra extends javax.swing.JFrame {
             lblBairroFornecedor.setText(a.getBairro_fornecedor());
         } else {
             JOptionPane.showMessageDialog(null, "Registro não encontrado.");
-            lblNomeFornecedor.setText("nome");
-            lblCnpjFornecedor.setText("CNPJ");
-            lblRuaFornecedor.setText("Rua");
-            lblComplementoFornecedor.setText("Complemento");
-            lblNumeroFornecedor.setText(String.valueOf("Numero"));
-            lblCidadeFornecedor.setText("Cidade");
-            lblEstadoFornecedor.setText("Estado");
-            lblBairroFornecedor.setText("Bairro");
+            lblNomeFornecedor.setText("");
+            lblCnpjFornecedor.setText("");
+            lblRuaFornecedor.setText("");
+            lblComplementoFornecedor.setText("");
+            lblNumeroFornecedor.setText("");
+            lblCidadeFornecedor.setText("");
+            lblEstadoFornecedor.setText("");
+            lblBairroFornecedor.setText("");
         }
     }
 
@@ -907,8 +909,8 @@ public class Compra extends javax.swing.JFrame {
         for (int i = 0; i < model.getRowCount(); i++) {
             try {
                 Object idProdutoObj = model.getValueAt(i, 0);
-                Object quantidadeObj = model.getValueAt(i, 2); 
-                Object valorTotalObj = model.getValueAt(i, 5); 
+                Object quantidadeObj = model.getValueAt(i, 2);
+                Object valorTotalObj = model.getValueAt(i, 5);
                 Object descontoObj = model.getValueAt(i, 4);
 
                 if (idProdutoObj == null || idProdutoObj.toString().trim().isEmpty()) {

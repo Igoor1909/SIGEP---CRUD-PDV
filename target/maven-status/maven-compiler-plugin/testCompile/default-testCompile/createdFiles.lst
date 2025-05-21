@@ -1,6 +1,7 @@
 conexao\EstoqueDAOTest.class
 principal\CadastrarProdutoTest.class
 principal\CadastroUsuarioTest.class
+principal\CompraTest.class
 conexao\ProdutoDAOTest.class
 conexao\FornecedorDAOTest.class
 principal\CadastrarFornecedorTest.class
