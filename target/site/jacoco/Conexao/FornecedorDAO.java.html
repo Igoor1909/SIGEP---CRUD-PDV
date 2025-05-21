@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FornecedorDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PI_6_Semestre</a> &gt; <a href="index.source.html" class="el_package">Conexao</a> &gt; <span class="el_source">FornecedorDAO.java</span></div><h1>FornecedorDAO.java</h1><pre class="source lang-java linenums">package Conexao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import dados.FornecedorDados;
+
+<span class="fc" id="L10">public class FornecedorDAO {</span>
+
+    Connection conexao;
+<span class="fc" id="L13">    PreparedStatement pstm = null;</span>
+    ResultSet rs;
+
+    public void cadastrarFornecedor(FornecedorDados objFornecedor) {
+<span class="fc" id="L17">        Connection conexao = null;</span>
+<span class="fc" id="L18">        PreparedStatement pstm = null;</span>
+
+        try {
+            // Verifica se CNPJ já existe
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">            if (getCNPJFornecedor(objFornecedor.getCnpj_fornecedor())) {</span>
+<span class="fc" id="L23">                JOptionPane.showMessageDialog(null, &quot;CNPJ já cadastrado!&quot;);</span>
+<span class="fc" id="L24">                return;</span>
+            }
+
+<span class="nc" id="L27">            conexao = new conexao().getConexao();</span>
+<span class="nc" id="L28">            conexao.setAutoCommit(false);</span>
+
+<span class="nc" id="L30">            String sql = &quot;INSERT INTO fornecedor (nome_fornecedor, cnpj_fornecedor, rua_fornecedor, &quot;</span>
+                    + &quot;complemento_fornecedor, numero_fornecedor, cidade_fornecedor, estado_fornecedor, bairro_fornecedor) &quot;
+                    + &quot;VALUES (?,?,?,?,?,?,?,?)&quot;;
+
+<span class="nc" id="L34">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L35">            pstm.setString(1, objFornecedor.getNome_fornecedor());</span>
+<span class="nc" id="L36">            pstm.setString(2, objFornecedor.getCnpj_fornecedor());</span>
+<span class="nc" id="L37">            pstm.setString(3, objFornecedor.getRua_fornecedor());</span>
+<span class="nc" id="L38">            pstm.setString(4, objFornecedor.getComplemento_fornecedor());</span>
+<span class="nc" id="L39">            pstm.setInt(5, objFornecedor.getNumero_fornecedor());</span>
+<span class="nc" id="L40">            pstm.setString(6, objFornecedor.getCidade_fornecedor());</span>
+<span class="nc" id="L41">            pstm.setString(7, objFornecedor.getEstado_fornecedor());</span>
+<span class="nc" id="L42">            pstm.setString(8, objFornecedor.getBairro_fornecedor());</span>
+
+<span class="nc" id="L44">            pstm.executeUpdate();</span>
+<span class="nc" id="L45">            conexao.commit();</span>
+            
+
+<span class="nc" id="L48">        } catch (SQLException e) {</span>
+            try {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">                if (conexao != null) {</span>
+<span class="nc" id="L51">                    conexao.rollback();</span>
+                }
+<span class="nc" id="L53">            } catch (SQLException ex) {</span>
+<span class="nc" id="L54">                JOptionPane.showMessageDialog(null, &quot;Erro ao reverter operação: &quot; + ex.getMessage());</span>
+<span class="nc" id="L55">            }</span>
+<span class="nc" id="L56">            JOptionPane.showMessageDialog(null, &quot;Erro durante o cadastro: &quot; + e.getMessage());</span>
+        } finally {
+            try {
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                if (pstm != null) {</span>
+<span class="nc" id="L60">                    pstm.close();</span>
+                }
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                if (conexao != null) {</span>
+<span class="nc" id="L63">                    conexao.close();</span>
+                }
+<span class="nc" id="L65">            } catch (SQLException ex) {</span>
+<span class="nc" id="L66">                JOptionPane.showMessageDialog(null, &quot;Erro ao fechar conexões: &quot; + ex.getMessage());</span>
+<span class="fc" id="L67">            }</span>
+        }
+<span class="nc" id="L69">    }</span>
+
+    public boolean getCNPJFornecedor(String cnpj) {
+<span class="fc" id="L72">        Connection conexao = null;</span>
+<span class="fc" id="L73">        PreparedStatement pstm = null;</span>
+<span class="fc" id="L74">        ResultSet rs = null;</span>
+
+        try {
+<span class="fc" id="L77">            String sql = &quot;SELECT cnpj_fornecedor FROM fornecedor WHERE cnpj_fornecedor = ? LIMIT 1&quot;;</span>
+<span class="fc" id="L78">            conexao = new conexao().getConexao();</span>
+<span class="fc" id="L79">            pstm = conexao.prepareStatement(sql);</span>
+<span class="fc" id="L80">            pstm.setString(1, cnpj);</span>
+<span class="fc" id="L81">            rs = pstm.executeQuery();</span>
+<span class="fc" id="L82">            return rs.next(); // Retorna true se encontrou o CNPJ</span>
+
+<span class="nc" id="L84">        } catch (SQLException e) {</span>
+<span class="nc" id="L85">            JOptionPane.showMessageDialog(null, &quot;FornecedorDAO CNPJ Ja cadastrado &quot; + e);</span>
+<span class="nc" id="L86">            return true; // Em caso de erro, assume que já existe para evitar duplicação</span>
+        } finally {
+            try {
+<span class="pc bpc" id="L89" title="1 of 2 branches missed.">                if (rs != null) {</span>
+<span class="fc" id="L90">                    rs.close();</span>
+                }
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                if (pstm != null) {</span>
+<span class="fc" id="L93">                    pstm.close();</span>
+                }
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">                if (conexao != null) {</span>
+<span class="fc" id="L96">                    conexao.close();</span>
+                }
+<span class="nc" id="L98">            } catch (SQLException ex) {</span>
+<span class="nc" id="L99">                JOptionPane.showMessageDialog(null, &quot;Erro ao fechar conexões: &quot; + ex.getMessage());</span>
+<span class="fc" id="L100">            }</span>
+        }
+    }
+
+    public FornecedorDados getFornecedorDados(int id_fornecedor) {
+<span class="nc" id="L105">        conexao = new conexao().getConexao();</span>
+
+<span class="nc" id="L107">        String sql = &quot;SELECT * FROM fornecedor WHERE id_fornecedor = ?&quot;;</span>
+        try {
+<span class="nc" id="L109">            PreparedStatement stmt = this.conexao.prepareStatement(sql);</span>
+<span class="nc" id="L110">            stmt.setInt(1, id_fornecedor);</span>
+<span class="nc" id="L111">            ResultSet rs = stmt.executeQuery();</span>
+
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L114">                FornecedorDados objFornecedorDados = new FornecedorDados();</span>
+<span class="nc" id="L115">                objFornecedorDados.setNome_fornecedor(rs.getString(&quot;nome_fornecedor&quot;));</span>
+<span class="nc" id="L116">                objFornecedorDados.setCnpj_fornecedor(rs.getString(&quot;cnpj_fornecedor&quot;));</span>
+<span class="nc" id="L117">                objFornecedorDados.setRua_fornecedor(rs.getString(&quot;rua_fornecedor&quot;));</span>
+<span class="nc" id="L118">                objFornecedorDados.setComplemento_fornecedor(rs.getString(&quot;complemento_fornecedor&quot;));</span>
+<span class="nc" id="L119">                objFornecedorDados.setNumero_fornecedor(rs.getInt(&quot;numero_fornecedor&quot;));</span>
+<span class="nc" id="L120">                objFornecedorDados.setCidade_fornecedor(rs.getString(&quot;cidade_fornecedor&quot;));</span>
+<span class="nc" id="L121">                objFornecedorDados.setEstado_fornecedor(rs.getString(&quot;estado_fornecedor&quot;));</span>
+<span class="nc" id="L122">                objFornecedorDados.setBairro_fornecedor(rs.getString(&quot;bairro_fornecedor&quot;));</span>
+
+<span class="nc" id="L124">                rs.close();</span>
+<span class="nc" id="L125">                stmt.close();</span>
+<span class="nc" id="L126">                conexao.close();</span>
+
+<span class="nc" id="L128">                return objFornecedorDados;</span>
+            } else {
+<span class="nc" id="L130">                rs.close();</span>
+<span class="nc" id="L131">                stmt.close();</span>
+<span class="nc" id="L132">                conexao.close();</span>
+<span class="nc" id="L133">                return null;</span>
+            }
+<span class="nc" id="L135">        } catch (SQLException e) {</span>
+<span class="nc" id="L136">            e.printStackTrace();</span>
+<span class="nc" id="L137">            return null;</span>
+        }
+    }
+
+    public void alterarCliente(FornecedorDados objCliente) {
+<span class="nc" id="L142">        String sql = &quot;update cliente set nome_cliente = ?, telefone = ?, id_endereco = ?, endereco = ?, medidas = ? where id_cliente = ?&quot;;</span>
+<span class="nc" id="L143">        conexao = new conexao().getConexao();</span>
+
+        try {
+  
+
+<span class="nc" id="L148">            pstm.execute();</span>
+<span class="nc" id="L149">            pstm.close();</span>
+
+<span class="nc" id="L151">        } catch (SQLException e) {</span>
+<span class="nc" id="L152">            JOptionPane.showMessageDialog(null, &quot;ClienteDAO AlterarCliente &quot; + e);</span>
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">    }</span>
+
+    public void excluirCliente(FornecedorDados objCliente) {
+
+<span class="nc" id="L158">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

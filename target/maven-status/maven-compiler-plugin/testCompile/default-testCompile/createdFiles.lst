@@ -1,0 +1,10 @@
+conexao\EstoqueDAOTest.class
+principal\CadastrarProdutoTest.class
+principal\CadastroUsuarioTest.class
+conexao\ProdutoDAOTest.class
+conexao\FornecedorDAOTest.class
+principal\CadastrarFornecedorTest.class
+principal\LoginTest.class
+E2E\E2ETest.class
+conexao\CompraDAOTest.class
+conexao\UsuarioDAOTest.class

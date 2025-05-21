@@ -1,0 +1,86 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+PI_6_Semestre,principal,Pedido,2079,0,36,0,466,0,33,0,15,0
+PI_6_Semestre,principal,cadastroUsuario.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,cadastroUsuario.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,cadastroUsuario.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,cadastroUsuario.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,ManutencaoProduto.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoProduto.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Pedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoProduto.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Pedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Pedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Pedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Pedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoProduto,703,0,16,0,169,0,19,0,11,0
+PI_6_Semestre,principal,Pedido.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Pedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Pedido.new KeyAdapter() {...},34,0,2,0,4,0,3,0,2,0
+PI_6_Semestre,principal,ManutencaoProduto.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoProduto.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Compra.new Runnable() {...},13,0,0,0,5,0,2,0,2,0
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,CadastrarFornecedor.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,CadastrarFornecedor.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,CadastrarFornecedor.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,CadastrarProduto.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,CadastrarProduto.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,CadastrarProduto.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Principal.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Compra.new DefaultTableModel() {...},41,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Compra.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,ManutencaoPedido,2184,0,30,0,492,0,31,0,16,0
+PI_6_Semestre,principal,Principal.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,Principal,131,504,4,0,42,95,14,2,12,2
+PI_6_Semestre,principal,Compra,3548,0,48,0,492,0,51,0,27,0
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Login.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Login.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Login.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Login.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,Login.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+PI_6_Semestre,principal,ManutencaoPedido.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,ManutencaoPedido.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+PI_6_Semestre,principal,cadastroUsuario,100,669,14,10,24,153,15,7,5,5
+PI_6_Semestre,principal,Login,123,508,11,7,30,122,13,6,6,4
+PI_6_Semestre,principal,CadastrarProduto,84,493,7,5,25,116,9,5,4,4
+PI_6_Semestre,principal,CadastrarFornecedor,96,983,11,17,26,191,12,11,3,6
+PI_6_Semestre,dados,CompraDados,56,0,0,0,21,0,10,0,10,0
+PI_6_Semestre,dados,EstoqueDados,3,0,0,0,1,0,1,0,1,0
+PI_6_Semestre,dados,ProdutoDados,7,24,0,0,3,10,2,7,2,7
+PI_6_Semestre,dados,ItemCompraDados,45,0,0,0,20,0,13,0,13,0
+PI_6_Semestre,dados,PedidoDados,73,0,0,0,31,0,21,0,21,0
+PI_6_Semestre,dados,UsuarioDados,13,25,0,0,5,11,4,7,4,7
+PI_6_Semestre,dados,FornecedorDados,25,41,0,0,9,19,8,11,8,11
+PI_6_Semestre,Conexao,PedidoDAO,322,0,2,0,83,0,7,0,6,0
+PI_6_Semestre,Conexao,CompraDAO,4,0,0,0,2,0,2,0,2,0
+PI_6_Semestre,Conexao,ItemCompraDAO,9,0,0,0,3,0,1,0,1,0
+PI_6_Semestre,Conexao,FornecedorDAO,215,66,10,6,66,26,11,3,3,3
+PI_6_Semestre,Conexao,conexao,43,38,1,1,17,14,4,2,3,2
+PI_6_Semestre,Conexao,EstoqueDAO,9,0,0,0,3,0,1,0,1,0
+PI_6_Semestre,Conexao,usuarioDAO,337,87,20,2,91,19,15,3,5,2
+PI_6_Semestre,Conexao,produtoDAO,318,0,16,0,102,0,14,0,6,0
+PI_6_Semestre,com.mycompany.pi_6_semestre,PI_6_Semestre,9,0,0,0,3,0,2,0,2,0

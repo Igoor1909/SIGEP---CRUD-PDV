@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>usuarioDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PI_6_Semestre</a> &gt; <a href="index.source.html" class="el_package">Conexao</a> &gt; <span class="el_source">usuarioDAO.java</span></div><h1>usuarioDAO.java</h1><pre class="source lang-java linenums">package Conexao;
+
+import dados.UsuarioDados;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import java.sql.PreparedStatement;
+
+<span class="fc" id="L13">public class usuarioDAO {</span>
+
+<span class="fc" id="L15">    Connection conexao = null;</span>
+<span class="fc" id="L16">    PreparedStatement pstm = null;</span>
+
+    
+
+    // Adicione este método
+    public void setConexao(Connection conexao) {
+<span class="nc" id="L22">        this.conexao = conexao;</span>
+<span class="nc" id="L23">    }</span>
+    
+   
+    
+    public ResultSet autenticacaoUsuario(UsuarioDados dados) {
+<span class="fc" id="L28">        String sql = &quot;SELECT * FROM usuario WHERE email_usuario = ? AND senha_usuario = ?&quot;;</span>
+<span class="fc" id="L29">        PreparedStatement pstm = null;</span>
+<span class="fc" id="L30">        ResultSet rs = null;</span>
+
+        try {
+<span class="fc" id="L33">            MessageDigest md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="fc" id="L34">            byte[] senhaBytes = dados.getSenha_usuario().getBytes(StandardCharsets.UTF_8);</span>
+<span class="fc" id="L35">            byte[] hashSenha = md.digest(senhaBytes);</span>
+
+<span class="fc" id="L37">            StringBuilder hexString = new StringBuilder();</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            for (byte b : hashSenha) {</span>
+<span class="fc" id="L39">                hexString.append(String.format(&quot;%02x&quot;, b));</span>
+            }
+<span class="fc" id="L41">            String senhaCriptografada = hexString.toString();</span>
+
+<span class="fc" id="L43">            conexao = new conexao().getConexao();</span>
+<span class="fc" id="L44">            pstm = conexao.prepareStatement(sql);</span>
+<span class="fc" id="L45">            pstm.setString(1, dados.getEmail_usuario());</span>
+<span class="fc" id="L46">            pstm.setString(2, senhaCriptografada);</span>
+
+<span class="fc" id="L48">            rs = pstm.executeQuery();</span>
+<span class="fc" id="L49">            return rs;</span>
+
+<span class="nc" id="L51">        } catch (SQLException erro) {</span>
+<span class="nc" id="L52">            JOptionPane.showMessageDialog(null, &quot;Erro ao autenticar usuário: &quot; + erro.getMessage());</span>
+            try {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">                if (pstm != null) {</span>
+<span class="nc" id="L55">                    pstm.close();</span>
+                }
+<span class="nc" id="L57">            } catch (SQLException e) {</span>
+<span class="nc" id="L58">            }</span>
+            try {
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                if (conexao != null) {</span>
+<span class="nc" id="L61">                    conexao.close();</span>
+                }
+<span class="nc" id="L63">            } catch (SQLException e) {</span>
+<span class="nc" id="L64">            }</span>
+<span class="nc" id="L65">            return null;</span>
+<span class="nc" id="L66">        } catch (NoSuchAlgorithmException erro) {</span>
+<span class="nc" id="L67">            JOptionPane.showMessageDialog(null, &quot;Erro ao criptografar senha: &quot; + erro.getMessage());</span>
+            try {
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                if (pstm != null) {</span>
+<span class="nc" id="L70">                    pstm.close();</span>
+                }
+<span class="nc" id="L72">            } catch (SQLException e) {</span>
+<span class="nc" id="L73">            }</span>
+            try {
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                if (conexao != null) {</span>
+<span class="nc" id="L76">                    conexao.close();</span>
+                }
+<span class="nc" id="L78">            } catch (SQLException e) {</span>
+<span class="nc" id="L79">            }</span>
+<span class="nc" id="L80">            return null;</span>
+        }
+    }
+
+    public boolean cadastrarUsuario(UsuarioDados dados) {
+        // Primeiro verifica se o email já existe
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if (emailJaCadastrado(dados.getEmail_usuario())) {</span>
+<span class="nc" id="L87">            JOptionPane.showMessageDialog(null, &quot;Erro: Este email já está cadastrado!&quot;);</span>
+<span class="nc" id="L88">            return false;</span>
+        }
+
+<span class="nc" id="L91">        String sql = &quot;INSERT INTO usuario (nome_usuario, email_usuario, senha_usuario, tipo_usuario) VALUES (?, ?, ?, ?)&quot;;</span>
+
+        try {
+<span class="nc" id="L94">            MessageDigest md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="nc" id="L95">            byte[] senhaBytes = dados.getSenha_usuario().getBytes(StandardCharsets.UTF_8);</span>
+<span class="nc" id="L96">            byte[] hashSenha = md.digest(senhaBytes);</span>
+
+<span class="nc" id="L98">            StringBuilder hexString = new StringBuilder();</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            for (byte b : hashSenha) {</span>
+<span class="nc" id="L100">                hexString.append(String.format(&quot;%02x&quot;, b));</span>
+            }
+<span class="nc" id="L102">            String senhaCriptografada = hexString.toString();</span>
+
+<span class="nc" id="L104">            conexao = new conexao().getConexao();</span>
+<span class="nc" id="L105">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L106">            pstm.setString(1, dados.getNome_usuario());</span>
+<span class="nc" id="L107">            pstm.setString(2, dados.getEmail_usuario());</span>
+<span class="nc" id="L108">            pstm.setString(3, senhaCriptografada);</span>
+<span class="nc" id="L109">            pstm.setString(4, dados.getTipo_usuario());</span>
+
+<span class="nc" id="L111">            pstm.execute();</span>
+<span class="nc" id="L112">            return true;</span>
+
+<span class="nc" id="L114">        } catch (SQLException e) {</span>
+<span class="nc" id="L115">            JOptionPane.showMessageDialog(null, &quot;Erro ao cadastrar usuário: &quot; + e.getMessage());</span>
+<span class="nc" id="L116">            return false;</span>
+<span class="nc" id="L117">        } catch (NoSuchAlgorithmException e) {</span>
+<span class="nc" id="L118">            JOptionPane.showMessageDialog(null, &quot;Erro ao criptografar senha: &quot; + e.getMessage());</span>
+<span class="nc" id="L119">            return false;</span>
+<span class="nc" id="L120">        } finally {</span>
+<span class="nc" id="L121">        }</span>
+    }
+
+    public boolean emailJaCadastrado(String email) {
+<span class="nc" id="L125">        String sql = &quot;SELECT email_usuario FROM usuario WHERE email_usuario = ?&quot;;</span>
+
+        try {
+<span class="nc" id="L128">            conexao = new conexao().getConexao();</span>
+<span class="nc" id="L129">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L130">            pstm.setString(1, email);</span>
+<span class="nc" id="L131">            ResultSet rs = pstm.executeQuery();</span>
+
+<span class="nc" id="L133">            return rs.next();</span>
+<span class="nc" id="L134">        } catch (SQLException e) {</span>
+<span class="nc" id="L135">            JOptionPane.showMessageDialog(null, &quot;Erro ao verificar email: &quot; + e.getMessage());</span>
+<span class="nc" id="L136">            return true;</span>
+        } finally {
+            try {
+<span class="nc bnc" id="L139" title="All 2 branches missed.">                if (pstm != null) {</span>
+<span class="nc" id="L140">                    pstm.close();</span>
+                }
+<span class="nc bnc" id="L142" title="All 2 branches missed.">                if (conexao != null) {</span>
+<span class="nc" id="L143">                    conexao.close();</span>
+                }
+<span class="nc" id="L145">            } catch (SQLException e) {</span>
+<span class="nc" id="L146">                JOptionPane.showMessageDialog(null, &quot;Erro ao fechar conexão: &quot; + e.getMessage());</span>
+<span class="nc" id="L147">            }</span>
+        }
+    }
+
+    public UsuarioDados getUsuarioDados(String email_usuario) {
+<span class="nc" id="L152">        conexao = new conexao().getConexao();</span>
+
+<span class="nc" id="L154">        String sql = &quot;SELECT * FROM usuario WHERE email_usuario = ?&quot;;</span>
+        try {
+<span class="nc" id="L156">            PreparedStatement stmt = this.conexao.prepareStatement(sql);</span>
+<span class="nc" id="L157">            stmt.setString(1, email_usuario);</span>
+<span class="nc" id="L158">            ResultSet rs = stmt.executeQuery();</span>
+
+<span class="nc bnc" id="L160" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L161">                UsuarioDados objUsuario = new UsuarioDados();</span>
+<span class="nc" id="L162">                objUsuario.setId_usuario(rs.getInt(&quot;id_usuario&quot;));</span>
+<span class="nc" id="L163">                objUsuario.setNome_usuario(rs.getString(&quot;nome_usuario&quot;));</span>
+<span class="nc" id="L164">                objUsuario.setEmail_usuario(rs.getString(&quot;email_usuario&quot;));</span>
+<span class="nc" id="L165">                objUsuario.setSenha_usuario(rs.getString(&quot;senha_usuario&quot;));</span>
+<span class="nc" id="L166">                objUsuario.setTipo_usuario(rs.getString(&quot;tipo_usuario&quot;));</span>
+
+<span class="nc" id="L168">                return objUsuario;</span>
+            } else {
+<span class="nc" id="L170">                return null;</span>
+            }
+
+<span class="nc" id="L173">        } catch (SQLException e) {</span>
+<span class="nc" id="L174">            e.printStackTrace();</span>
+<span class="nc" id="L175">            return null;</span>
+        }
+    }
+    
+        public String gerarHashSenha(String senha) throws NoSuchAlgorithmException {
+<span class="nc" id="L180">        MessageDigest md = MessageDigest.getInstance(&quot;SHA-256&quot;);</span>
+<span class="nc" id="L181">        byte[] senhaBytes = senha.getBytes(StandardCharsets.UTF_8);</span>
+<span class="nc" id="L182">        byte[] hashSenha = md.digest(senhaBytes);</span>
+
+<span class="nc" id="L184">        StringBuilder hexString = new StringBuilder();</span>
+<span class="nc bnc" id="L185" title="All 2 branches missed.">        for (byte b : hashSenha) {</span>
+<span class="nc" id="L186">            hexString.append(String.format(&quot;%02x&quot;, b));</span>
+        }
+<span class="nc" id="L188">        return hexString.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

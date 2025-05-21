@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>produtoDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PI_6_Semestre</a> &gt; <a href="index.source.html" class="el_package">Conexao</a> &gt; <span class="el_source">produtoDAO.java</span></div><h1>produtoDAO.java</h1><pre class="source lang-java linenums">package Conexao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import dados.ProdutoDados;
+
+<span class="nc" id="L10">public class produtoDAO {</span>
+
+    Connection conexao;
+<span class="nc" id="L13">    PreparedStatement pstm = null;</span>
+    ResultSet rs;
+    
+    
+
+    public void cadastrarProduto(ProdutoDados objProdutos) {
+<span class="nc" id="L19">        Connection conexao = null;</span>
+<span class="nc" id="L20">        PreparedStatement pstmProduto = null;</span>
+<span class="nc" id="L21">        PreparedStatement pstmEstoque = null;</span>
+<span class="nc" id="L22">        ResultSet generatedKeys = null;</span>
+
+        try {
+<span class="nc bnc" id="L25" title="All 2 branches missed.">            if (getEanProduto(objProdutos.getEan_produto())) {</span>
+<span class="nc" id="L26">                JOptionPane.showMessageDialog(null, &quot;Código EAN já cadastrado!&quot;);</span>
+<span class="nc" id="L27">                return;</span>
+            }
+
+<span class="nc" id="L30">            conexao = new conexao().getConexao();</span>
+<span class="nc" id="L31">            conexao.setAutoCommit(false);</span>
+
+<span class="nc" id="L33">            String sqlProduto = &quot;INSERT INTO produto (nome_produto, valor_produto, ean_produto) VALUES (?, ?, ?)&quot;;</span>
+<span class="nc" id="L34">            pstmProduto = conexao.prepareStatement(sqlProduto, PreparedStatement.RETURN_GENERATED_KEYS);</span>
+<span class="nc" id="L35">            pstmProduto.setString(1, objProdutos.getNome_produto());</span>
+<span class="nc" id="L36">            pstmProduto.setDouble(2, objProdutos.getValor());</span>
+<span class="nc" id="L37">            pstmProduto.setString(3, objProdutos.getEan_produto());</span>
+<span class="nc" id="L38">            pstmProduto.executeUpdate();</span>
+
+<span class="nc" id="L40">            generatedKeys = pstmProduto.getGeneratedKeys();</span>
+            int idProduto;
+<span class="nc bnc" id="L42" title="All 2 branches missed.">            if (generatedKeys.next()) {</span>
+<span class="nc" id="L43">                idProduto = generatedKeys.getInt(1);</span>
+            } else {
+<span class="nc" id="L45">                throw new SQLException(&quot;Falha ao obter ID do produto cadastrado&quot;);</span>
+            }
+
+<span class="nc" id="L48">            String sqlEstoque = &quot;INSERT INTO estoque (id_produto, quantidade_produto) VALUES (?, 0)&quot;;</span>
+<span class="nc" id="L49">            pstmEstoque = conexao.prepareStatement(sqlEstoque);</span>
+<span class="nc" id="L50">            pstmEstoque.setInt(1, idProduto);</span>
+<span class="nc" id="L51">            pstmEstoque.executeUpdate();</span>
+
+<span class="nc" id="L53">            conexao.commit();</span>
+<span class="nc" id="L54">            JOptionPane.showMessageDialog(null, &quot;Produto cadastrado com sucesso e estoque inicializado!&quot;);</span>
+
+<span class="nc" id="L56">        } catch (SQLException e) {</span>
+            try {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                if (conexao != null) {</span>
+<span class="nc" id="L59">                    conexao.rollback();</span>
+                }
+<span class="nc" id="L61">            } catch (SQLException ex) {</span>
+<span class="nc" id="L62">                JOptionPane.showMessageDialog(null, &quot;Erro ao reverter operação: &quot; + ex.getMessage());</span>
+<span class="nc" id="L63">            }</span>
+<span class="nc" id="L64">            JOptionPane.showMessageDialog(null, &quot;Erro durante o cadastro: &quot; + e.getMessage());</span>
+        } finally {
+            try {
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                if (generatedKeys != null) {</span>
+<span class="nc" id="L68">                    generatedKeys.close();</span>
+                }
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                if (pstmProduto != null) {</span>
+<span class="nc" id="L71">                    pstmProduto.close();</span>
+                }
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                if (pstmEstoque != null) {</span>
+<span class="nc" id="L74">                    pstmEstoque.close();</span>
+                }
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                if (conexao != null) {</span>
+<span class="nc" id="L77">                    conexao.close();</span>
+                }
+<span class="nc" id="L79">            } catch (SQLException ex) {</span>
+<span class="nc" id="L80">                JOptionPane.showMessageDialog(null, &quot;Erro ao fechar conexões: &quot; + ex.getMessage());</span>
+<span class="nc" id="L81">            }</span>
+        }
+<span class="nc" id="L83">    }</span>
+
+    public boolean getEanProduto(String ean) {
+<span class="nc" id="L86">        String sql = &quot;SELECT ean_produto FROM produto WHERE ean_produto = ? LIMIT 1&quot;;</span>
+<span class="nc" id="L87">        conexao = new conexao().getConexao();</span>
+        try {
+<span class="nc" id="L89">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L90">            pstm.setString(1, ean);</span>
+<span class="nc" id="L91">            ResultSet rs = pstm.executeQuery();</span>
+<span class="nc" id="L92">            boolean existe = rs.next();</span>
+<span class="nc" id="L93">            rs.close();</span>
+<span class="nc" id="L94">            pstm.close();</span>
+<span class="nc" id="L95">            return existe;</span>
+<span class="nc" id="L96">        } catch (SQLException e) {</span>
+<span class="nc" id="L97">            JOptionPane.showMessageDialog(null, &quot;ProdutoDAO eanJaCadastrado &quot; + e);</span>
+<span class="nc" id="L98">            return true;</span>
+        }
+    }
+
+    public ProdutoDados getProdutoDados(int id_produto) {
+<span class="nc" id="L103">        conexao = new conexao().getConexao();</span>
+
+<span class="nc" id="L105">        String sql = &quot;SELECT * FROM produto WHERE id_produto = ?&quot;;</span>
+        try {
+<span class="nc" id="L107">            PreparedStatement stmt = this.conexao.prepareStatement(sql);</span>
+<span class="nc" id="L108">            stmt.setInt(1, id_produto);</span>
+<span class="nc" id="L109">            ResultSet rs = stmt.executeQuery();</span>
+
+<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L112">                ProdutoDados objProduto = new ProdutoDados();</span>
+<span class="nc" id="L113">                objProduto.setNome_produto(rs.getString(&quot;nome_produto&quot;));</span>
+<span class="nc" id="L114">                objProduto.setValor(rs.getDouble(&quot;valor_produto&quot;));</span>
+<span class="nc" id="L115">                objProduto.setEan_produto(rs.getString(&quot;ean_produto&quot;));</span>
+                
+<span class="nc" id="L117">                rs.close();</span>
+<span class="nc" id="L118">                stmt.close();</span>
+<span class="nc" id="L119">                conexao.close();</span>
+
+<span class="nc" id="L121">                return objProduto;</span>
+            } else {
+<span class="nc" id="L123">                rs.close();</span>
+<span class="nc" id="L124">                stmt.close();</span>
+<span class="nc" id="L125">                conexao.close();</span>
+<span class="nc" id="L126">                return null;</span>
+            }
+
+<span class="nc" id="L129">        } catch (SQLException e) {</span>
+<span class="nc" id="L130">            e.printStackTrace();</span>
+<span class="nc" id="L131">            return null;</span>
+        }
+    }
+
+    public void alterarProduto(ProdutoDados objProduto) {
+<span class="nc" id="L136">        String sql = &quot;update produto set nome_produto = ?, valor = ? where id_produto = ?&quot;;</span>
+<span class="nc" id="L137">        conexao = new conexao().getConexao();</span>
+
+        try {
+<span class="nc" id="L140">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L141">            pstm.setString(1, objProduto.getNome_produto());</span>
+<span class="nc" id="L142">            pstm.setDouble(2, objProduto.getValor());</span>
+<span class="nc" id="L143">            pstm.setInt(3, objProduto.getId_produto());</span>
+
+<span class="nc" id="L145">            pstm.execute();</span>
+<span class="nc" id="L146">            pstm.close();</span>
+
+<span class="nc" id="L148">        } catch (SQLException e) {</span>
+<span class="nc" id="L149">            JOptionPane.showMessageDialog(null, &quot;ClienteDAO AlterarProduto &quot; + e);</span>
+<span class="nc" id="L150">        }</span>
+<span class="nc" id="L151">    }</span>
+
+    public void excluirProduto(ProdutoDados objProduto) {
+<span class="nc" id="L154">        String sql = &quot;delete from produto where id_produto = ?&quot;;</span>
+<span class="nc" id="L155">        conexao = new conexao().getConexao();</span>
+
+        try {
+<span class="nc" id="L158">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L159">            pstm.setInt(1, objProduto.getId_produto());</span>
+
+<span class="nc" id="L161">            pstm.execute();</span>
+<span class="nc" id="L162">            pstm.close();</span>
+<span class="nc" id="L163">            JOptionPane.showMessageDialog(null, &quot;Produto excluido!&quot;);</span>
+<span class="nc" id="L164">        } catch (SQLException e) {</span>
+<span class="nc" id="L165">            JOptionPane.showMessageDialog(null, &quot;Produto ja utilizado em pedidos!\nImpossivel excluir!&quot;);</span>
+<span class="nc" id="L166">        }</span>
+<span class="nc" id="L167">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

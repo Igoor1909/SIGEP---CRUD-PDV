@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PedidoDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PI_6_Semestre</a> &gt; <a href="index.source.html" class="el_package">Conexao</a> &gt; <span class="el_source">PedidoDAO.java</span></div><h1>PedidoDAO.java</h1><pre class="source lang-java linenums">package Conexao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import dados.PedidoDados;
+
+<span class="nc" id="L10">public class PedidoDAO {</span>
+
+    Connection conexao;
+<span class="nc" id="L13">    PreparedStatement pstm = null;</span>
+    ResultSet rs;
+
+    public void RealizarPedido(PedidoDados objPedido) {
+<span class="nc" id="L17">        String sql = &quot;insert into pedido (id_cliente, id_produto, quantidade_produto, valor_unidade, valor_total, forma_pagamento, data_retirada, status_pedido) values (?,?,?,?,?,?,?,?) &quot;;</span>
+<span class="nc" id="L18">        conexao = new conexao().getConexao();</span>
+
+        try {
+<span class="nc" id="L21">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L22">            pstm.setInt(1, objPedido.getId_cliente());</span>
+<span class="nc" id="L23">            pstm.setInt(2, objPedido.getId_produto());</span>
+<span class="nc" id="L24">            pstm.setInt(3, objPedido.getQuantidade());</span>
+<span class="nc" id="L25">            pstm.setDouble(4, objPedido.getValor_unitario());</span>
+<span class="nc" id="L26">            pstm.setDouble(5, objPedido.getValor_total());</span>
+<span class="nc" id="L27">            pstm.setString(6, objPedido.getForma_pagamento());</span>
+<span class="nc" id="L28">            pstm.setString(7, objPedido.getData_retirada());</span>
+<span class="nc" id="L29">            pstm.setString(8, objPedido.getStatus());</span>
+
+<span class="nc" id="L31">            pstm.execute();</span>
+<span class="nc" id="L32">            pstm.close();</span>
+<span class="nc" id="L33">        } catch (SQLException e) {</span>
+<span class="nc" id="L34">            System.out.println(&quot;RealizarPedido PedidoDAO&quot; + e);</span>
+<span class="nc" id="L35">        }</span>
+<span class="nc" id="L36">    }</span>
+
+    public PedidoDados getPedidoDados(int id_pedido) {
+<span class="nc" id="L39">        conexao = new conexao().getConexao();</span>
+
+<span class="nc" id="L41">        String sql = &quot;SELECT * FROM pedido WHERE id_pedido = ?&quot;;</span>
+
+        try {
+<span class="nc" id="L44">            PreparedStatement stmt = this.conexao.prepareStatement(sql);</span>
+<span class="nc" id="L45">            stmt.setInt(1, id_pedido);</span>
+<span class="nc" id="L46">            ResultSet rs = stmt.executeQuery();</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (rs.next()) {</span>
+<span class="nc" id="L49">                PedidoDados objPedido = new PedidoDados();</span>
+<span class="nc" id="L50">                objPedido.setId_cliente(rs.getInt(&quot;id_cliente&quot;));</span>
+<span class="nc" id="L51">                objPedido.setId_produto(rs.getInt(&quot;id_produto&quot;));</span>
+<span class="nc" id="L52">                objPedido.setQuantidade(rs.getInt(&quot;quantidade_produto&quot;));</span>
+<span class="nc" id="L53">                objPedido.setValor_unitario(rs.getDouble(&quot;valor_unidade&quot;));</span>
+<span class="nc" id="L54">                objPedido.setValor_total(rs.getDouble(&quot;valor_total&quot;));</span>
+<span class="nc" id="L55">                objPedido.setForma_pagamento(rs.getString(&quot;forma_pagamento&quot;));</span>
+<span class="nc" id="L56">                objPedido.setData_retirada(rs.getString(&quot;data_retirada&quot;));</span>
+<span class="nc" id="L57">                objPedido.setStatus(rs.getString(&quot;status_pedido&quot;));</span>
+
+<span class="nc" id="L59">                rs.close();</span>
+<span class="nc" id="L60">                stmt.close();</span>
+<span class="nc" id="L61">                conexao.close();</span>
+
+<span class="nc" id="L63">                return objPedido;</span>
+            } else {
+<span class="nc" id="L65">                rs.close();</span>
+<span class="nc" id="L66">                stmt.close();</span>
+<span class="nc" id="L67">                conexao.close();</span>
+
+<span class="nc" id="L69">                return null;</span>
+            }
+<span class="nc" id="L71">        } catch (SQLException e) {</span>
+<span class="nc" id="L72">            e.printStackTrace();</span>
+<span class="nc" id="L73">            return null;</span>
+        }
+    }
+    
+    public void finalizarPedido(PedidoDados objPedido){
+<span class="nc" id="L78">        String sql = &quot;update pedido set status_pedido = 'Finalizado' where id_pedido = ?&quot;;</span>
+<span class="nc" id="L79">        conexao = new conexao().getConexao();</span>
+        
+        try{
+<span class="nc" id="L82">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L83">            pstm.setInt(1, objPedido.getId_pedido());</span>
+            
+<span class="nc" id="L85">            pstm.execute();</span>
+<span class="nc" id="L86">            pstm.close();</span>
+<span class="nc" id="L87">        }catch (SQLException e) {</span>
+<span class="nc" id="L88">            JOptionPane.showMessageDialog(null, &quot;PedidoDAO FinalizarPedido &quot; + e);</span>
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">    }</span>
+
+    public void alterarPedido(PedidoDados objPedido) {
+<span class="nc" id="L93">        String sql = &quot;update pedido set id_cliente = ?, id_produto = ?, quantidade_produto = ?, valor_unidade = ?, valor_total = ?, forma_pagamento = ?, data_retirada = ?, status_pedido = ? where id_pedido = ?&quot;;</span>
+<span class="nc" id="L94">        conexao = new conexao().getConexao();</span>
+
+        try {
+<span class="nc" id="L97">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L98">            pstm.setInt(1, objPedido.getId_cliente());</span>
+<span class="nc" id="L99">            pstm.setInt(2, objPedido.getId_produto());</span>
+<span class="nc" id="L100">            pstm.setInt(3, objPedido.getQuantidade());</span>
+<span class="nc" id="L101">            pstm.setDouble(4, objPedido.getValor_unitario());</span>
+<span class="nc" id="L102">            pstm.setDouble(5, objPedido.getValor_total());</span>
+<span class="nc" id="L103">            pstm.setString(6, objPedido.getForma_pagamento());</span>
+<span class="nc" id="L104">            pstm.setString(7, objPedido.getData_retirada());</span>
+<span class="nc" id="L105">            pstm.setString(8, objPedido.getStatus());</span>
+<span class="nc" id="L106">            pstm.setInt(9, objPedido.getId_pedido());</span>
+
+<span class="nc" id="L108">            pstm.execute();</span>
+<span class="nc" id="L109">            pstm.close();</span>
+
+<span class="nc" id="L111">        } catch (SQLException e) {</span>
+<span class="nc" id="L112">            JOptionPane.showMessageDialog(null, &quot;PedidoDAO AlterarPedido &quot; + e);</span>
+<span class="nc" id="L113">        }</span>
+<span class="nc" id="L114">    }</span>
+
+    public void excluirPedido(PedidoDados objPedido) {
+<span class="nc" id="L117">        String sql = &quot;delete from pedido where id_pedido = ?&quot;;</span>
+<span class="nc" id="L118">        conexao = new conexao().getConexao();</span>
+
+        try {
+<span class="nc" id="L121">            pstm = conexao.prepareStatement(sql);</span>
+<span class="nc" id="L122">            pstm.setInt(1, objPedido.getId_pedido());</span>
+
+<span class="nc" id="L124">            pstm.execute();</span>
+<span class="nc" id="L125">            pstm.close();</span>
+
+<span class="nc" id="L127">        } catch (SQLException e) {</span>
+<span class="nc" id="L128">            JOptionPane.showMessageDialog(null, &quot;PedidoDAO ExcluirPedido &quot; + e);</span>
+<span class="nc" id="L129">        }</span>
+<span class="nc" id="L130">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
