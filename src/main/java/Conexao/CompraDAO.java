@@ -15,6 +15,7 @@ public class CompraDAO {
     public CompraDAO(conexao conexaoDB) {
         this.conexaoDB = conexaoDB;
     }
+    
 
     public int cadastrarCompra(CompraDados dados) {
         String sql = "INSERT INTO compra (id_fornecedor, total_compra, pagamento_compra) VALUES (?, ?, ?)";

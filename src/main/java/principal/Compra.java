@@ -33,8 +33,30 @@ public class Compra extends javax.swing.JFrame {
     /**
      * Creates new form Compra
      */
+    private final produtoDAO produtoDAO;
+
+    // Construtor padrão usa o DAO real
     public Compra() {
+        this(new produtoDAO());
+    }
+
+    // Construtor para injetar o DAO (útil para testes)
+    public Compra(produtoDAO produtoDAO) {
+        this.produtoDAO = produtoDAO;
         initComponents();
+        // Outras inicializações, se houver
+    }
+
+    private CompraDAO compraDAO = new CompraDAO(new conexao());
+
+    // método getter
+    protected CompraDAO getCompraDAO() {
+        return compraDAO;
+    }
+
+    // método setter para facilitar injeção em testes
+    protected void setCompraDAO(CompraDAO compraDAO) {
+        this.compraDAO = compraDAO;
     }
 
     /**
@@ -509,53 +531,7 @@ public class Compra extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIDProdutoActionPerformed
 
     private void btnAdicionarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarProdutoActionPerformed
-        try {
-            String idProduto = txtIDProduto.getText().trim();
-            String nomeProduto = txtNomeProduto.getText().trim();
-            String quantidadeStr = txtQuantidadeProduto.getText().trim();
-            String valorStr = txtValorProduto.getText().trim().replace(",", ".");
-            String descontoStr = txtDescontoProduto.getText().trim().replace(",", ".");
-
-            if (idProduto.isEmpty() || nomeProduto.isEmpty() || quantidadeStr.isEmpty()
-                    || valorStr.isEmpty() || descontoStr.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Aviso", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            int quantidade = Integer.parseInt(quantidadeStr);
-            double valor = Double.parseDouble(valorStr);
-            double desconto = Double.parseDouble(descontoStr);
-
-            DefaultTableModel model = (DefaultTableModel) tblProdutosCompra.getModel();
-
-            for (int i = 0; i < model.getRowCount(); i++) {
-                if (model.getValueAt(i, 0) != null && model.getValueAt(i, 0).toString().equals(idProduto)) {
-                    JOptionPane.showMessageDialog(this, "ID já existe!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-
-            NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
-            nf.setMinimumFractionDigits(2);
-
-            model.insertRow(0, new Object[]{
-                idProduto,
-                nomeProduto,
-                quantidade,
-                nf.format(valor),
-                nf.format(desconto),
-                nf.format((valor * quantidade) - desconto)
-            });
-
-            atualizarTotalGeral();
-            limparCampos();
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Valores inválidos!\nUse:\n- Inteiros para quantidade\n- Decimais para valores",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-
+        adiconarCarrinho();
     }//GEN-LAST:event_btnAdicionarProdutoActionPerformed
 
     private void txtNomeProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeProdutoActionPerformed
@@ -626,7 +602,7 @@ public class Compra extends javax.swing.JFrame {
         });
     }
 
-    private void limparCampos() {
+    public void limparCampos() {
         txtIDProduto.setText("");
         txtNomeProduto.setText("");
         txtQuantidadeProduto.setText("");
@@ -705,7 +681,7 @@ public class Compra extends javax.swing.JFrame {
             return;
         }
 
-        ProdutoDados a = new produtoDAO().getProdutoDados(id);
+        ProdutoDados a = produtoDAO.getProdutoDados(id);  // Usa o campo, não cria DAO novo
 
         if (a != null) {
             txtNomeProduto.setText(a.getNome_produto());
@@ -721,7 +697,7 @@ public class Compra extends javax.swing.JFrame {
         }
     }
 
-    private void addValidacaoCampos(JTextField txtValor, JTextField txtQuantidade,
+    public void addValidacaoCampos(JTextField txtValor, JTextField txtQuantidade,
             JTextField txtDesconto, JTextField txtTotal) {
         txtValor.addActionListener(e -> {
             validarCampoDecimal(txtValor, "valor");
@@ -740,7 +716,7 @@ public class Compra extends javax.swing.JFrame {
         });
     }
 
-    private void validarCampoDecimal(JTextField campo, String nomeCampo) {
+    public void validarCampoDecimal(JTextField campo, String nomeCampo) {
         String texto = campo.getText();
 
         if (texto.contains(".")) {
@@ -754,7 +730,7 @@ public class Compra extends javax.swing.JFrame {
         }
     }
 
-    private void validarCampoQuantidade(JTextField campo) {
+    public void validarCampoQuantidade(JTextField campo) {
         String texto = campo.getText();
 
         if (!texto.matches("^\\d+$")) {
@@ -764,7 +740,7 @@ public class Compra extends javax.swing.JFrame {
         }
     }
 
-    private void verificarDescontoMaiorQueTotal(JTextField txtValor, JTextField txtQuantidade,
+    public void verificarDescontoMaiorQueTotal(JTextField txtValor, JTextField txtQuantidade,
             JTextField txtDesconto, JTextField txtTotal) {
         try {
             double valor = parseDecimal(txtValor.getText());
@@ -780,7 +756,7 @@ public class Compra extends javax.swing.JFrame {
         }
     }
 
-    private void calcularValorTotal(JTextField txtValor, JTextField txtQuantidade,
+    public void calcularValorTotal(JTextField txtValor, JTextField txtQuantidade,
             JTextField txtDesconto, JTextField txtTotal) {
         try {
             double valor = parseDecimal(txtValor.getText());
@@ -798,15 +774,64 @@ public class Compra extends javax.swing.JFrame {
         }
     }
 
-    private String formatarDecimal(double valor) {
+    public void adiconarCarrinho() {
+        try {
+            String idProduto = txtIDProduto.getText().trim();
+            String nomeProduto = txtNomeProduto.getText().trim();
+            String quantidadeStr = txtQuantidadeProduto.getText().trim();
+            String valorStr = txtValorProduto.getText().trim().replace(",", ".");
+            String descontoStr = txtDescontoProduto.getText().trim().replace(",", ".");
+
+            if (idProduto.isEmpty() || nomeProduto.isEmpty() || quantidadeStr.isEmpty()
+                    || valorStr.isEmpty() || descontoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int quantidade = Integer.parseInt(quantidadeStr);
+            double valor = Double.parseDouble(valorStr);
+            double desconto = Double.parseDouble(descontoStr);
+
+            DefaultTableModel model = (DefaultTableModel) tblProdutosCompra.getModel();
+
+            for (int i = 0; i < model.getRowCount(); i++) {
+                if (model.getValueAt(i, 0) != null && model.getValueAt(i, 0).toString().equals(idProduto)) {
+                    JOptionPane.showMessageDialog(this, "ID já existe!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
+            nf.setMinimumFractionDigits(2);
+
+            model.insertRow(0, new Object[]{
+                idProduto,
+                nomeProduto,
+                quantidade,
+                nf.format(valor),
+                nf.format(desconto),
+                nf.format((valor * quantidade) - desconto)
+            });
+
+            atualizarTotalGeral();
+            limparCampos();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Valores inválidos!\nUse:\n- Inteiros para quantidade\n- Decimais para valores",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public String formatarDecimal(double valor) {
         return String.format("%.2f", valor).replace(".", ",");
     }
 
-    private double parseDecimal(String texto) throws NumberFormatException {
+    public double parseDecimal(String texto) throws NumberFormatException {
         return Double.parseDouble(texto.replace(",", "."));
     }
 
-    private void atualizarTotalGeral() {
+    public void atualizarTotalGeral() {
         DefaultTableModel model = (DefaultTableModel) tblProdutosCompra.getModel();
         double total = 0.0;
 
@@ -833,7 +858,7 @@ public class Compra extends javax.swing.JFrame {
         lblTotalVenda.setText(nf.format(total));
     }
 
-    private void limparTabelaProdutos() {
+    public void limparTabelaProdutos() {
         // Salva os nomes das colunas atuais
         String[] columnNames = new String[tblProdutosCompra.getColumnCount()];
         for (int i = 0; i < tblProdutosCompra.getColumnCount(); i++) {
@@ -848,14 +873,12 @@ public class Compra extends javax.swing.JFrame {
         tblProdutosCompra.clearSelection();
     }
 
-    private void finalizarCompra() {
+    public void finalizarCompra() {
         try {
-            // Captura e limpa os valores da interface
             String idFornecedorStr = txtIDFornecedor.getText().trim();
             String formaPagamento = (String) jComboBox1.getSelectedItem();
             String totalVendaStr = lblTotalVenda.getText().trim();
 
-            // Validações
             if (idFornecedorStr.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "O campo ID do fornecedor não pode estar vazio.");
                 return;
@@ -879,15 +902,16 @@ public class Compra extends javax.swing.JFrame {
                 return;
             }
 
-            // Cria o objeto com os dados da compra
             CompraDados dadosCompra = new CompraDados();
             dadosCompra.setId_fornecedor(idFornecedor);
             dadosCompra.setPagamento_compra(formaPagamento);
             dadosCompra.setTotal_venda(totalVendaStr);
 
-            // Envia para o DAO e recupera o ID gerado
-            CompraDAO compraDAO = new CompraDAO(new conexao());
-            int idCompraGerado = compraDAO.cadastrarCompra(dadosCompra);
+            // Troque esta linha:
+            // CompraDAO compraDAO = new CompraDAO(new conexao());
+            // int idCompraGerado = compraDAO.cadastrarCompra(dadosCompra);
+            // Por esta:
+            int idCompraGerado = getCompraDAO().cadastrarCompra(dadosCompra);
 
             if (idCompraGerado != -1) {
                 salvarItensCompra(idCompraGerado);
@@ -896,13 +920,12 @@ public class Compra extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Erro ao cadastrar a compra.");
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao finalizar compra: " + e.getMessage());
         }
     }
 
-    private void salvarItensCompra(int idCompraGerado) {
+    public void salvarItensCompra(int idCompraGerado) {
         DefaultTableModel model = (DefaultTableModel) tblProdutosCompra.getModel();
         ItemCompraDAO itemDAO = new ItemCompraDAO();
 
@@ -941,7 +964,7 @@ public class Compra extends javax.swing.JFrame {
         }
     }
 
-    private void limparCamposCompra() {
+    public void limparCamposCompra() {
         txtIDFornecedor.setText("");
         lblTotalVenda.setText("0,00");
         jComboBox1.setSelectedIndex(0);
