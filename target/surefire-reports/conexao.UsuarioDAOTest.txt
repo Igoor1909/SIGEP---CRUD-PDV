@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: conexao.UsuarioDAOTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.636 s - in conexao.UsuarioDAOTest
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.159 s - in conexao.UsuarioDAOTest

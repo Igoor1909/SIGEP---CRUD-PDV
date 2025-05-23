@@ -2,16 +2,74 @@
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 public class EstoqueDAO {
 
-    private Connection conexao;
+    private conexao conexaoDB;
 
-<span class="nc" id="L11">    public EstoqueDAO() {</span>
-<span class="nc" id="L12">        this.conexao = new conexao().getConexao();</span>
-<span class="nc" id="L13">    }</span>
+<span class="fc" id="L13">    public EstoqueDAO(conexao conexaoDB) {</span>
+<span class="fc" id="L14">        this.conexaoDB = conexaoDB;</span>
+<span class="fc" id="L15">    }</span>
 
+    public boolean atualizarEstoqueCompra(int idProduto, int quantidadeComprada) {
+<span class="fc" id="L18">        String sqlSelect = &quot;SELECT quantidade_produto FROM estoque WHERE id_produto = ?&quot;;</span>
+<span class="fc" id="L19">        String sqlUpdate = &quot;UPDATE estoque SET quantidade_produto = quantidade_produto + ? WHERE id_produto = ?&quot;;</span>
+<span class="fc" id="L20">        String sqlInsert = &quot;INSERT INTO estoque (id_produto, quantidade_produto) VALUES (?, ?)&quot;;</span>
 
+<span class="fc" id="L22">        Connection conexao = null;</span>
+<span class="fc" id="L23">        PreparedStatement pstm = null;</span>
+<span class="fc" id="L24">        ResultSet rs = null;</span>
+
+        try {
+<span class="fc" id="L27">            conexao = conexaoDB.getConexao();</span>
+
+            // Verifica se já existe no estoque
+<span class="fc" id="L30">            pstm = conexao.prepareStatement(sqlSelect);</span>
+<span class="fc" id="L31">            pstm.setInt(1, idProduto);</span>
+<span class="fc" id="L32">            rs = pstm.executeQuery();</span>
+
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">            if (rs.next()) {</span>
+<span class="fc" id="L35">                rs.close();</span>
+<span class="fc" id="L36">                pstm.close();</span>
+
+<span class="fc" id="L38">                pstm = conexao.prepareStatement(sqlUpdate);</span>
+<span class="fc" id="L39">                pstm.setInt(1, quantidadeComprada);</span>
+<span class="fc" id="L40">                pstm.setInt(2, idProduto);</span>
+<span class="fc" id="L41">                pstm.executeUpdate();</span>
+            } else {
+<span class="nc" id="L43">                rs.close();</span>
+<span class="nc" id="L44">                pstm.close();</span>
+
+<span class="nc" id="L46">                pstm = conexao.prepareStatement(sqlInsert);</span>
+<span class="nc" id="L47">                pstm.setInt(1, idProduto);</span>
+<span class="nc" id="L48">                pstm.setInt(2, quantidadeComprada);</span>
+<span class="nc" id="L49">                pstm.executeUpdate();</span>
+            }
+
+<span class="fc" id="L52">            return true;</span>
+
+<span class="nc" id="L54">        } catch (SQLException e) {</span>
+<span class="nc" id="L55">            JOptionPane.showMessageDialog(null, &quot;Erro ao atualizar estoque: &quot; + e.getMessage());</span>
+<span class="nc" id="L56">            return false;</span>
+
+        } finally {
+            try {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">                if (rs != null) {</span>
+<span class="fc" id="L61">                    rs.close();</span>
+                }
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">                if (pstm != null) {</span>
+<span class="fc" id="L64">                    pstm.close();</span>
+                }
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">                if (conexao != null) {</span>
+<span class="fc" id="L67">                    conexao.close();</span>
+                }
+<span class="nc" id="L69">            } catch (SQLException e) {</span>
+<span class="nc" id="L70">                JOptionPane.showMessageDialog(null, &quot;Erro ao fechar conexão: &quot; + e.getMessage());</span>
+<span class="fc" id="L71">            }</span>
+        }
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

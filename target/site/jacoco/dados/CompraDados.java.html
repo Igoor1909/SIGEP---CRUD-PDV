@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
-<span class="nc" id="L7">public class CompraDados {</span>
+<span class="fc" id="L7">public class CompraDados {</span>
 
     private int id_compra, id_fornecedor;
     private String pagamento_compra;
@@ -23,16 +23,16 @@ import java.util.Locale;
     }
 
     public void setId_fornecedor(int id_fornecedor) {
-<span class="nc" id="L26">        this.id_fornecedor = id_fornecedor;</span>
-<span class="nc" id="L27">    }</span>
+<span class="fc" id="L26">        this.id_fornecedor = id_fornecedor;</span>
+<span class="fc" id="L27">    }</span>
 
     public String getPagamento_compra() {
 <span class="nc" id="L30">        return pagamento_compra;</span>
     }
 
     public void setPagamento_compra(String pagamento_compra) {
-<span class="nc" id="L34">        this.pagamento_compra = pagamento_compra;</span>
-<span class="nc" id="L35">    }</span>
+<span class="fc" id="L34">        this.pagamento_compra = pagamento_compra;</span>
+<span class="fc" id="L35">    }</span>
 
     public double getTotal_venda() {
 <span class="nc" id="L38">        return total_venda;</span>
@@ -40,19 +40,19 @@ import java.util.Locale;
 
     public void setTotal_venda(String valorFormatado) {
         try {
-<span class="nc" id="L43">            NumberFormat format = NumberFormat.getInstance(new Locale(&quot;pt&quot;, &quot;BR&quot;));</span>
-<span class="nc" id="L44">            Number number = format.parse(valorFormatado);</span>
-<span class="nc" id="L45">            this.total_venda = number.doubleValue();</span>
+<span class="fc" id="L43">            NumberFormat format = NumberFormat.getInstance(new Locale(&quot;pt&quot;, &quot;BR&quot;));</span>
+<span class="fc" id="L44">            Number number = format.parse(valorFormatado);</span>
+<span class="fc" id="L45">            this.total_venda = number.doubleValue();</span>
 <span class="nc" id="L46">        } catch (ParseException e) {</span>
 <span class="nc" id="L47">            System.err.println(&quot;Erro ao converter valor: &quot; + valorFormatado);</span>
 <span class="nc" id="L48">            this.total_venda = 0.0;</span>
-<span class="nc" id="L49">        }</span>
-<span class="nc" id="L50">    }</span>
+<span class="fc" id="L49">        }</span>
+<span class="fc" id="L50">    }</span>
 
     // Mantenha o setter original para double
     public void setTotal_venda(double total_venda) {
-<span class="nc" id="L54">        this.total_venda = total_venda;</span>
-<span class="nc" id="L55">    }</span>
+<span class="fc" id="L54">        this.total_venda = total_venda;</span>
+<span class="fc" id="L55">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

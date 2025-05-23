@@ -1,5 +1,6 @@
 conexao\EstoqueDAOTest.class
 principal\CadastrarProdutoTest.class
+conexao\ItemCompraDAOTest.class
 principal\CadastroUsuarioTest.class
 principal\CompraTest.class
 conexao\ProdutoDAOTest.class

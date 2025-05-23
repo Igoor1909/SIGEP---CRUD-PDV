@@ -4,6 +4,10 @@ import dados.ProdutoDados;
 import Conexao.produtoDAO;
 import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
@@ -12,6 +16,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class ProdutoDAOTest {
+
+    private produtoDAO dao;
+
+    @BeforeEach
+    public void setUp() {
+        dao = new produtoDAO();
+    }
 
     @Test
     public void testCadastrarProdutoSucesso() throws SQLException {
@@ -67,6 +78,27 @@ public class ProdutoDAOTest {
         // Verifica interações
         verify(produtoDAOMock, times(1)).getEanProduto("7891234567890");
         verify(produtoDAOMock, times(1)).cadastrarProduto(produto);
+    }
+
+    @Test
+    public void testGetProdutoDados_IdValido() {
+        int id = 1; // Produto banana
+
+        ProdutoDados produto = dao.getProdutoDados(id);
+
+        assertNotNull(produto);
+        assertEquals("banana", produto.getNome_produto());
+        assertEquals(1.99, produto.getValor(), 0.001); // tolerância para ponto flutuante
+        assertEquals("12345", produto.getEan_produto());
+    }
+
+    @Test
+    public void testGetProdutoDados_IdInvalido() {
+        int idInvalido = 9999; // ID de um produto que não existe no banco
+
+        ProdutoDados produto = dao.getProdutoDados(idInvalido);
+
+        assertNull(produto, "Esperado null para ID de produto inexistente.");
     }
 
 }

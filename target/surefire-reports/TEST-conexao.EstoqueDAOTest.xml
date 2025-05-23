@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="conexao.EstoqueDAOTest" time="2.545" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="conexao.EstoqueDAOTest" time="0.793" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -12,12 +12,11 @@
     <property name="user.timezone" value="America/Sao_Paulo"/>
     <property name="os.name" value="Windows 11"/>
     <property name="java.vm.specification.version" value="17"/>
-    <property name="user.country" value="BR"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="BR"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\zulu17.40.19-ca-jdk17.0.6-win_x64\bin"/>
-    <property name="sun.java.command" value="C:\Users\igorg\AppData\Local\Temp\surefire2605912171528937545\surefirebooter-20250520220124451_3.jar C:\Users\igorg\AppData\Local\Temp\surefire2605912171528937545 2025-05-20T22-01-24_253-jvmRun1 surefire-20250520220124451_1tmp surefire_0-20250520220124451_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\igorg\AppData\Local\Temp\surefire4996818119574637007\surefirebooter-20250523163113373_3.jar C:\Users\igorg\AppData\Local\Temp\surefire4996818119574637007 2025-05-23T16-31-13_126-jvmRun1 surefire-20250523163113373_1tmp surefire_0-20250523163113373_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="conexao.EstoqueDAOTest#testAtualizarEstoqueProdutoExistente"/>
     <property name="surefire.test.class.path" value="C:\Users\igorg\OneDrive\Documentos\NetBeansProjects\AV2_ED\CRUD_Agenda\PI_6_Semestre\target\test-classes;C:\Users\igorg\OneDrive\Documentos\NetBeansProjects\AV2_ED\CRUD_Agenda\PI_6_Semestre\target\classes;C:\Users\igorg\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\igorg\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\igorg\.m2\repository\org\openjfx\javafx-swing\17.0.2\javafx-swing-17.0.2.jar;C:\Users\igorg\.m2\repository\org\openjfx\javafx-swing\17.0.2\javafx-swing-17.0.2-win.jar;C:\Users\igorg\.m2\repository\org\openjfx\javafx-graphics\17.0.2\javafx-graphics-17.0.2.jar;C:\Users\igorg\.m2\repository\org\openjfx\javafx-graphics\17.0.2\javafx-graphics-17.0.2-win.jar;C:\Users\igorg\.m2\repository\org\openjfx\javafx-base\17.0.2\javafx-base-17.0.2.jar;C:\Users\igorg\.m2\repository\org\openjfx\javafx-base\17.0.2\javafx-base-17.0.2-win.jar;C:\Users\igorg\.m2\repository\com\formdev\flatlaf\3.0\flatlaf-3.0.jar;C:\Users\igorg\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.3\junit-jupiter-api-5.9.3.jar;C:\Users\igorg\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\igorg\.m2\repository\org\junit\platform\junit-platform-commons\1.9.3\junit-platform-commons-1.9.3.jar;C:\Users\igorg\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\igorg\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.3\junit-jupiter-engine-5.9.3.jar;C:\Users\igorg\.m2\repository\org\junit\platform\junit-platform-engine\1.9.3\junit-platform-engine-1.9.3.jar;C:\Users\igorg\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.3\junit-jupiter-params-5.9.3.jar;C:\Users\igorg\.m2\repository\org\mockito\mockito-core\5.3.1\mockito-core-5.3.1.jar;C:\Users\igorg\.m2\repository\net\bytebuddy\byte-buddy\1.14.4\byte-buddy-1.14.4.jar;C:\Users\igorg\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.4\byte-buddy-agent-1.14.4.jar;C:\Users\igorg\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\igorg\.m2\repository\org\mockito\mockito-junit-jupiter\5.3.1\mockito-junit-jupiter-5.3.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\igorg"/>
@@ -31,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\igorg\AppData\Local\Temp\surefire2605912171528937545\surefirebooter-20250520220124451_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\igorg\AppData\Local\Temp\surefire4996818119574637007\surefirebooter-20250523163113373_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.6+10-LTS"/>
@@ -39,10 +38,9 @@
     <property name="path.separator" value=";"/>
     <property name="os.version" value="10.0"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
-    <property name="file.encoding" value="UTF-8"/>
+    <property name="file.encoding" value="Cp1252"/>
     <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
     <property name="java.vendor.version" value="Zulu17.40+19-CA"/>
-    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans-19\netbeans\java\maven-nblib\netbeans-eventspy.jar"/>
     <property name="localRepository" value="C:\Users\igorg\.m2\repository"/>
     <property name="java.vendor.url.bug" value="http://www.azul.com/support/"/>
     <property name="java.io.tmpdir" value="C:\Users\igorg\AppData\Local\Temp\"/>
@@ -59,5 +57,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testAtualizarEstoqueProdutoExistente" classname="conexao.EstoqueDAOTest" time="2.503"/>
+  <testcase name="testAtualizarEstoqueProdutoExistenteCompra" classname="conexao.EstoqueDAOTest" time="0.785"/>
 </testsuite>

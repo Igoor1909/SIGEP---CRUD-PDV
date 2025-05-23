@@ -19,7 +19,7 @@ public class EstoqueDAOTest {
     private EstoqueDAO estoqueDAO;
 
     @Test
-    public void testAtualizarEstoqueProdutoExistente() throws Exception {
+    public void testAtualizarEstoqueProdutoExistenteCompra() throws Exception {
         // Mocks necessários
         conexao conexaoMock = mock(conexao.class);
         Connection connectionMock = mock(Connection.class);
@@ -37,7 +37,7 @@ public class EstoqueDAOTest {
         EstoqueDAO estoqueDAO = new EstoqueDAO(conexaoMock);
 
         // Executa
-        boolean resultado = estoqueDAO.atualizarEstoque(1, 5);
+        boolean resultado = estoqueDAO.atualizarEstoqueCompra(1, 5);
 
         // Verificações
         assertTrue(resultado);

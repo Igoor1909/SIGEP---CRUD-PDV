@@ -6,17 +6,44 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
+import javax.swing.JOptionPane;
 
-<span class="nc" id="L11">public class CompraDAO {</span>
-    private Connection conexao;
-    private PreparedStatement pstm;
-    private ResultSet rs;
+public class CompraDAO {
 
-    public void realizarCompra (CompraDados objCompra){
+    private conexao conexaoDB;
 
-<span class="nc" id="L18">        }</span>
-    }
+<span class="fc" id="L15">    public CompraDAO(conexao conexaoDB) {</span>
+<span class="fc" id="L16">        this.conexaoDB = conexaoDB;</span>
+<span class="fc" id="L17">    }</span>
     
 
+    public int cadastrarCompra(CompraDados dados) {
+<span class="nc" id="L21">        String sql = &quot;INSERT INTO compra (id_fornecedor, total_compra, pagamento_compra) VALUES (?, ?, ?)&quot;;</span>
+<span class="nc" id="L22">        int idCompraGerado = -1;</span>
+
+        try {
+<span class="nc" id="L25">            Connection conexao = conexaoDB.getConexao();</span>
+<span class="nc" id="L26">            PreparedStatement pstm = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);</span>
+
+<span class="nc" id="L28">            pstm.setInt(1, dados.getId_fornecedor());</span>
+<span class="nc" id="L29">            pstm.setDouble(2, dados.getTotal_venda());</span>
+<span class="nc" id="L30">            pstm.setString(3, dados.getPagamento_compra());</span>
+
+<span class="nc" id="L32">            int rowsAffected = pstm.executeUpdate();</span>
+
+<span class="nc bnc" id="L34" title="All 2 branches missed.">            if (rowsAffected &gt; 0) {</span>
+<span class="nc" id="L35">                ResultSet generatedKeys = pstm.getGeneratedKeys();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">                if (generatedKeys.next()) {</span>
+<span class="nc" id="L37">                    idCompraGerado = generatedKeys.getInt(1);</span>
+                }
+            }
+
+<span class="nc" id="L41">        } catch (SQLException e) {</span>
+<span class="nc" id="L42">            JOptionPane.showMessageDialog(null, &quot;Erro ao cadastrar compra: &quot; + e.getMessage());</span>
+<span class="nc" id="L43">        }</span>
+
+<span class="nc" id="L45">        return idCompraGerado;</span>
+    }
+
+}
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

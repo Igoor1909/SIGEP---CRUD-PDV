@@ -31,7 +31,7 @@ public class CompraTest {
         FornecedorDAO fornecedorDAOMock = mock(FornecedorDAO.class);
         FornecedorDados fornecedor = new FornecedorDados();
         fornecedor.setNome_fornecedor("Fornecedor X");
-        fornecedor.setCnpj_fornecedor("00.000.000/0001-00");
+        fornecedor.setCnpj_fornecedor("00000000000100");
         fornecedor.setRua_fornecedor("Rua Y");
         fornecedor.setComplemento_fornecedor("Sala 101");
         fornecedor.setNumero_fornecedor(123);
@@ -47,7 +47,7 @@ public class CompraTest {
 
         // Verifica se os labels foram atualizados
         verify(lblNome).setText("Fornecedor X");
-        verify(lblCnpj).setText("00.000.000/0001-00");
+        verify(lblCnpj).setText("00000000000100");
         verify(lblRua).setText("Rua Y");
         verify(lblComp).setText("Sala 101");
         verify(lblNum).setText("123");

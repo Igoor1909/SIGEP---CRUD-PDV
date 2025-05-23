@@ -15,7 +15,7 @@ import org.mockito.MockedStatic;
 public class CadastrarProdutoTest {
 
     @Test
-    public void testCadastrarProdutoComDadosValidosTest() throws Exception {
+    public void testCadastrarProdutoComDadosValidos() throws Exception {
         // Mock dos campos JTextField
         JTextField txtNomeMock = mock(JTextField.class);
         JTextField txtValorMock = mock(JTextField.class);

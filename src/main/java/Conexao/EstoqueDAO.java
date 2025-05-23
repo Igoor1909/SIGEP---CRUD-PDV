@@ -14,7 +14,7 @@ public class EstoqueDAO {
         this.conexaoDB = conexaoDB;
     }
 
-    public boolean atualizarEstoque(int idProduto, int quantidadeComprada) {
+    public boolean atualizarEstoqueCompra(int idProduto, int quantidadeComprada) {
         String sqlSelect = "SELECT quantidade_produto FROM estoque WHERE id_produto = ?";
         String sqlUpdate = "UPDATE estoque SET quantidade_produto = quantidade_produto + ? WHERE id_produto = ?";
         String sqlInsert = "INSERT INTO estoque (id_produto, quantidade_produto) VALUES (?, ?)";

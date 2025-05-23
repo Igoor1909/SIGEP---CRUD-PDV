@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: principal.LoginTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.423 s - in principal.LoginTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.925 s - in principal.LoginTest

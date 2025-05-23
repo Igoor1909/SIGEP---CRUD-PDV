@@ -931,20 +931,29 @@ public class Compra extends javax.swing.JFrame {
 
         for (int i = 0; i < model.getRowCount(); i++) {
             try {
+                // Obtém os valores da linha
                 Object idProdutoObj = model.getValueAt(i, 0);
                 Object quantidadeObj = model.getValueAt(i, 2);
                 Object valorTotalObj = model.getValueAt(i, 5);
                 Object descontoObj = model.getValueAt(i, 4);
 
+                // Pula linha se ID do produto estiver vazio ou nulo
                 if (idProdutoObj == null || idProdutoObj.toString().trim().isEmpty()) {
-                    continue; // pula linha vazia
+                    continue;
                 }
 
+                // Converte os valores
                 int idProduto = Integer.parseInt(idProdutoObj.toString());
-                int quantidade = Integer.parseInt(quantidadeObj.toString());
-                double valorTotal = Double.parseDouble(valorTotalObj.toString().replace(",", "."));
-                double desconto = Double.parseDouble(descontoObj.toString().replace(",", "."));
+                int quantidade = (quantidadeObj != null && !quantidadeObj.toString().isEmpty())
+                        ? Integer.parseInt(quantidadeObj.toString()) : 0;
 
+                double valorTotal = (valorTotalObj != null && !valorTotalObj.toString().isEmpty())
+                        ? Double.parseDouble(valorTotalObj.toString().replace(",", ".")) : 0.0;
+
+                double desconto = (descontoObj != null && !descontoObj.toString().isEmpty())
+                        ? Double.parseDouble(descontoObj.toString().replace(",", ".")) : 0.0;
+
+                // Preenche objeto com os dados da linha
                 ItemCompraDados item = new ItemCompraDados();
                 item.setId_compra(idCompraGerado);
                 item.setId_produto(idProduto);
@@ -952,14 +961,17 @@ public class Compra extends javax.swing.JFrame {
                 item.setTotal_produto(valorTotal);
                 item.setDesconto_produto(desconto);
 
+                // Tenta cadastrar item no banco
                 boolean sucesso = itemDAO.cadastrarItem(item);
                 if (!sucesso) {
                     JOptionPane.showMessageDialog(null, "Erro ao salvar item da linha " + (i + 1));
                     break;
                 }
 
+            } catch (NumberFormatException nfe) {
+                JOptionPane.showMessageDialog(null, "Erro de conversão na linha " + (i + 1) + ": " + nfe.getMessage());
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao processar linha " + (i + 1) + ": " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Erro inesperado na linha " + (i + 1) + ": " + e.getMessage());
             }
         }
     }

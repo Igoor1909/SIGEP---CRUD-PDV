@@ -37,7 +37,7 @@ public class FornecedorDAOTest {
 
         // 4. Executa o método simulado
         fornecedorDAOMock.cadastrarFornecedor(fornecedor);
-        
+
         //mensagem de sucesso do teste
         System.out.println("✅ Produto cadastrado com sucesso: " + fornecedor.getNome_fornecedor());
 
@@ -92,12 +92,38 @@ public class FornecedorDAOTest {
         // 6. Tenta cadastrar duplicado
         boolean cnpjExisteDepois = fornecedorDAOMock.getCNPJFornecedor(fornecedor2.getCnpj_fornecedor());
         assertTrue(cnpjExisteDepois, "CNPJ já deveria existir após primeiro cadastro");
-        
+
         // Mensagem que o teste deu certo e avisou que o cnpj ja foi usado
         System.out.println("CNPJ ja utilizado: " + fornecedor2.getCnpj_fornecedor());
 
         // Como o CNPJ já existe, o segundo cadastro não deve ocorrer
         verify(fornecedorDAOMock, never()).cadastrarFornecedor(fornecedor2);
+    }
+
+    @Test
+    public void testGetFornecedorDados_IdValido() {
+        int id = 3; // ID do fornecedor existente
+
+        FornecedorDados fornecedor = fornecedorDAO.getFornecedorDados(id);
+
+        assertNotNull(fornecedor);
+        assertEquals("Fornecedor Teste LTDA", fornecedor.getNome_fornecedor());
+        assertEquals("12345678901234", fornecedor.getCnpj_fornecedor());
+        assertEquals("Rua dos Testes", fornecedor.getRua_fornecedor());
+        assertEquals("Sala 45", fornecedor.getComplemento_fornecedor());
+        assertEquals(123, fornecedor.getNumero_fornecedor());
+        assertEquals("São Paulo", fornecedor.getCidade_fornecedor());
+        assertEquals("SP", fornecedor.getEstado_fornecedor());
+        assertEquals("Centro", fornecedor.getBairro_fornecedor());
+    }
+
+    @Test
+    public void testGetFornecedorDados_IdInvalido() {
+        int idInvalido = 9999; // ID de um fornecedor que não existe no banco
+
+        FornecedorDados fornecedor = fornecedorDAO.getFornecedorDados(idInvalido);
+
+        assertNull(fornecedor, "Esperado null para ID de fornecedor inexistente.");
     }
 
 }

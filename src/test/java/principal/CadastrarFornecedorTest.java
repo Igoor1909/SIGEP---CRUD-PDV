@@ -33,7 +33,7 @@ public class CadastrarFornecedorTest {
 
         // Dados simulados
         when(txtNomeMock.getText()).thenReturn("Fornecedor X");
-        when(txtCNPJMock.getText()).thenReturn("12345678900012");
+        when(txtCNPJMock.getText()).thenReturn("13957448129");
         when(txtRuaMock.getText()).thenReturn("Rua Exemplo");
         when(txtNumeroMock.getText()).thenReturn("123");
         when(txtComplementoMock.getText()).thenReturn("Bloco A");
@@ -60,7 +60,7 @@ public class CadastrarFornecedorTest {
     }
 
     @Test
-    public void testCadastrarFornecedorComNomeVazio() throws Exception {
+    public void testCadastrarFornecedorComCampoVazio() throws Exception {
         CadastrarFornecedor cadastro = new CadastrarFornecedor();
 
         // Mock dos campos

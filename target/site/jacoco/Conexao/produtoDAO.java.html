@@ -7,10 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import dados.ProdutoDados;
 
-<span class="nc" id="L10">public class produtoDAO {</span>
+<span class="fc" id="L10">public class produtoDAO {</span>
 
     Connection conexao;
-<span class="nc" id="L13">    PreparedStatement pstm = null;</span>
+<span class="fc" id="L13">    PreparedStatement pstm = null;</span>
     ResultSet rs;
     
     
@@ -100,30 +100,30 @@ import dados.ProdutoDados;
     }
 
     public ProdutoDados getProdutoDados(int id_produto) {
-<span class="nc" id="L103">        conexao = new conexao().getConexao();</span>
+<span class="fc" id="L103">        conexao = new conexao().getConexao();</span>
 
-<span class="nc" id="L105">        String sql = &quot;SELECT * FROM produto WHERE id_produto = ?&quot;;</span>
+<span class="fc" id="L105">        String sql = &quot;SELECT * FROM produto WHERE id_produto = ?&quot;;</span>
         try {
-<span class="nc" id="L107">            PreparedStatement stmt = this.conexao.prepareStatement(sql);</span>
-<span class="nc" id="L108">            stmt.setInt(1, id_produto);</span>
-<span class="nc" id="L109">            ResultSet rs = stmt.executeQuery();</span>
+<span class="fc" id="L107">            PreparedStatement stmt = this.conexao.prepareStatement(sql);</span>
+<span class="fc" id="L108">            stmt.setInt(1, id_produto);</span>
+<span class="fc" id="L109">            ResultSet rs = stmt.executeQuery();</span>
 
-<span class="nc bnc" id="L111" title="All 2 branches missed.">            if (rs.next()) {</span>
-<span class="nc" id="L112">                ProdutoDados objProduto = new ProdutoDados();</span>
-<span class="nc" id="L113">                objProduto.setNome_produto(rs.getString(&quot;nome_produto&quot;));</span>
-<span class="nc" id="L114">                objProduto.setValor(rs.getDouble(&quot;valor_produto&quot;));</span>
-<span class="nc" id="L115">                objProduto.setEan_produto(rs.getString(&quot;ean_produto&quot;));</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">            if (rs.next()) {</span>
+<span class="fc" id="L112">                ProdutoDados objProduto = new ProdutoDados();</span>
+<span class="fc" id="L113">                objProduto.setNome_produto(rs.getString(&quot;nome_produto&quot;));</span>
+<span class="fc" id="L114">                objProduto.setValor(rs.getDouble(&quot;valor_produto&quot;));</span>
+<span class="fc" id="L115">                objProduto.setEan_produto(rs.getString(&quot;ean_produto&quot;));</span>
                 
-<span class="nc" id="L117">                rs.close();</span>
-<span class="nc" id="L118">                stmt.close();</span>
-<span class="nc" id="L119">                conexao.close();</span>
+<span class="fc" id="L117">                rs.close();</span>
+<span class="fc" id="L118">                stmt.close();</span>
+<span class="fc" id="L119">                conexao.close();</span>
 
-<span class="nc" id="L121">                return objProduto;</span>
+<span class="fc" id="L121">                return objProduto;</span>
             } else {
-<span class="nc" id="L123">                rs.close();</span>
-<span class="nc" id="L124">                stmt.close();</span>
-<span class="nc" id="L125">                conexao.close();</span>
-<span class="nc" id="L126">                return null;</span>
+<span class="fc" id="L123">                rs.close();</span>
+<span class="fc" id="L124">                stmt.close();</span>
+<span class="fc" id="L125">                conexao.close();</span>
+<span class="fc" id="L126">                return null;</span>
             }
 
 <span class="nc" id="L129">        } catch (SQLException e) {</span>
